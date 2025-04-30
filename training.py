@@ -1,7 +1,7 @@
 import sys
 import os
 from pyspark.sql import SparkSession
-from pyspark.ml.classification import LogisticRegression
+from pyspark.ml.classification import RandomForestClassifier
 from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 
@@ -17,9 +17,9 @@ def prepare_features(df, label="quality"):
     assembler = VectorAssembler(inputCols=feature_columns, outputCol="features")
     return assembler.transform(df).select("features", label)
 
-def train_logistic_regression(training_data):
-    lr = LogisticRegression(labelCol="quality", featuresCol="features", maxIter=10)
-    return lr.fit(training_data)
+def train_random_forest(training_data):
+    rf = RandomForestClassifier(labelCol="quality", featuresCol="features", numTrees=100, maxDepth=10)
+    return rf.fit(training_data)
 
 def evaluate_model(model, validation_data):
     predictions = model.transform(validation_data)
@@ -40,7 +40,7 @@ val_data = load_dataset(spark, val_path)
 train_features = prepare_features(train_data)
 val_features = prepare_features(val_data)
 
-model = train_logistic_regression(train_features)
+model = train_random_forest(train_features)
 model.write().overwrite().save("trained_model")
 
 f1 = evaluate_model(model, val_features)
