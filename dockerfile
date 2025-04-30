@@ -10,4 +10,4 @@ RUN pip3 install pandas numpy
 
 ENV PYSPARK_PYTHON=python3
 
-CMD ["spark-submit", "run_model.py", "TrainingDataset.csv", "ValidationDataset.csv"]
+CMD ["spark-submit", "main.py", "TrainingDataset.csv", "ValidationDataset.csv"]
