@@ -51,7 +51,7 @@ app\output.txt
 
 The ```output.txt``` file will contain the F1 score:
 ```
-Validation F1 Score: 0.5264
+F1 Score on Test Set: 0.5264
 ```
 
 ## Cleanup
